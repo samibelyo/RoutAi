@@ -1,0 +1,22 @@
+{
+    "sqltools.connections": [
+        {
+            "pgOptions": {
+                "ssl": true
+            },
+            "previewLimit": 50,
+            "server": "db.bit.io",
+            "driver": "PostgreSQL",
+            "name": "Prospect_Project_db",
+            "connectString": "postgresql://woumax:v2_3zgCg_mb3tcBv7Fd8ifezigh5pzGu@db.bit.io:5432/woumax/Prospect_Project_db",
+            "username": "woumax",
+            "database": "woumax/Prospect_Project_db"
+        },
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "name": "conn",
+            "database": "${workspaceFolder:RoutAi}/pothole_data.db"
+        }
+    ]
+}
