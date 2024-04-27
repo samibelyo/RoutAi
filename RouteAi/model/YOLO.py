@@ -20,9 +20,8 @@ def make_prediction(img):
     return prediction
 
 
-
 ## Dashboard
-st.title("Pothole Detector")
+st.title("")
 upload = st.file_uploader(label="Upload Image :", type=["png", "jpg", "jpeg"]) ## Image as Bytes 
 
 
