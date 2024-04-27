@@ -37,11 +37,16 @@ localisation = np.nan
 
 
 if st.button('Soumettre'):
+    if photo is not None:
+        photo_data = photo.read()
+    else:
+        photo_data = None
+
     # Enregistrer les données dans la base de données
     conn = sqlite3.connect('data.db')
     c = conn.cursor()
     c.execute('''CREATE TABLE IF NOT EXISTS nids_de_poule (id INTEGER PRIMARY KEY AUTOINCREMENT, adresse TEXT, code_postal TEXT, type_route TEXT, message TEXT, photo BLOB, localisation TEXT)''')
-    c.execute('INSERT INTO nids_de_poule (adresse, code_postal, type_route, message, photo, localisation) VALUES (?, ?, ?, ?, ?, ?)', (adresse, code_postal, type_route, message, photo.read(), localisation))
+    c.execute('INSERT INTO nids_de_poule (adresse, code_postal, type_route, message, photo, localisation) VALUES (?, ?, ?, ?, ?, ?)', (adresse, code_postal, type_route, message, photo_data, localisation))
     conn.commit()
     conn.close()
     st.success('Nid de poule signalé avec succès')
