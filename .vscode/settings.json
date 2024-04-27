@@ -16,7 +16,7 @@
             "previewLimit": 50,
             "driver": "SQLite",
             "name": "conn",
-            "database": "${workspaceFolder:RoutAi}/pothole_data.db"
+            "database": "${workspaceFolder:RoutAi}/data.db"
         }
     ]
 }
