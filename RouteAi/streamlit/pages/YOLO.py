@@ -3,6 +3,7 @@ import streamlit as st
 from PIL import Image
 import torch
 
+
 # Load your trained YOLO model
 test_model = YOLO("best.pt", task="detect")
 
@@ -20,8 +21,18 @@ def make_prediction(img):
     return prediction
 
 
+# Transformer les données (still in progress)
+def transform_data_YOLO(df):
+    transformed_df = df.copy()
+    
+
+    return transformed_df 
+
+
+df=lire_donnees_nids_de_poule()
+
 ## Dashboard
-st.title("")
+st.title("detecteur nids de pouls")
 upload = st.file_uploader(label="Upload Image :", type=["png", "jpg", "jpeg"]) ## Image as Bytes 
 
 
