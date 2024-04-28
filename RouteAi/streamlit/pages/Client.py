@@ -9,9 +9,7 @@ import datetime
 st.title('RoutAi')
 st.subheader('Interface client')
 
-st.write('Veuillez indiquer votre position pour signaler un nid de poule')
-st.write('Vous pouvez également ajouter une photo du nid de poule')
-st.write('Veuillez remplir le formulaire ci-dessous')
+st.write('Veuillez remplir le formulaire ci-dessous pour signaler un nid de poule')
 
 # Initialiser la base de données
 if not os.path.exists('data.db'):
@@ -21,39 +19,40 @@ if not os.path.exists('data.db'):
     conn.commit()
     conn.close()
 
-# Créer formulaire à remplir
-adresse = st.text_input('Adresse')
-code_postal = st.text_input('Code Postal')
-type_route = st.selectbox('Type de route', ['Artère Principale', 'Rue Collectrice'
-, 'Rue Locale'])
-message = st.text_area('Message')
-# Photo est obligatoire
+with st.form(key='my_form'):
+    # Créer formulaire à remplir
+    adresse = st.text_input('Adresse')
+    code_postal = st.text_input('Code Postal')
+    type_route = st.selectbox('Type de route', ['Artère Principale', 'Rue Collectrice'
+    , 'Rue Locale'])
+    message = st.text_area('Message')
+    # Photo est obligatoire
 
-photo = st.file_uploader('Photo du nid de poule (Obligatoire)', type=['jpg', 'jpeg', 'png'])
+    photo = st.file_uploader('Photo du nid de poule (Obligatoire)', type=['jpg', 'jpeg', 'png'])
 
-# localisation = streamlit_geolocation()
-localisation = np.nan
-
-
-
+    # localisation = streamlit_geolocation()
+    localisation = np.nan
 
 
+    submitted = st.form_submit_button('Soumettre')
 
-if st.button('Soumettre'):
 
-    if photo is not None:
-        photo_data = photo.read()
-    else:
-        st.error('Veuillez ajouter une photo du nid de poule')
-        st.stop()
 
-    # Enregistrer les données dans la base de données
-    conn = sqlite3.connect('data.db')
-    c = conn.cursor()
-    c.execute('''CREATE TABLE IF NOT EXISTS nids_de_poule (id INTEGER PRIMARY KEY AUTOINCREMENT, adresse TEXT, code_postal TEXT, type_route TEXT, message TEXT, photo BLOB, localisation TEXT, created_at TIMESTAMP)''')
-    current_time = datetime.datetime.now()
-    c.execute('INSERT INTO nids_de_poule (adresse, code_postal, type_route, message, photo, localisation, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)', (adresse, code_postal, type_route, message, photo_data, localisation, current_time))
-    conn.commit()
-    conn.close()
-    st.success('Nid de poule signalé avec succès')
+    if submitted:
+
+        if photo is not None:
+            photo_data = photo.read()
+        else:
+            st.error('Veuillez ajouter une photo du nid de poule')
+            st.stop()
+
+        # Enregistrer les données dans la base de données
+        conn = sqlite3.connect('data.db')
+        c = conn.cursor()
+        c.execute('''CREATE TABLE IF NOT EXISTS nids_de_poule (id INTEGER PRIMARY KEY AUTOINCREMENT, adresse TEXT, code_postal TEXT, type_route TEXT, message TEXT, photo BLOB, localisation TEXT, created_at TIMESTAMP)''')
+        current_time = datetime.datetime.now()
+        c.execute('INSERT INTO nids_de_poule (adresse, code_postal, type_route, message, photo, localisation, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)', (adresse, code_postal, type_route, message, photo_data, localisation, current_time))
+        conn.commit()
+        conn.close()
+        st.success('Nid de poule signalé avec succès')
 
