@@ -20,18 +20,23 @@ if not os.path.exists('data.db'):
     conn.commit()
     conn.close()
 
-# Afficher les nids de poule signalés
+
+#lire donnes de la base de donnees data.db
+
+    # Connexion à la base de données SQLite
 conn = sqlite3.connect('data.db')
 df = pd.read_sql('SELECT * FROM nids_de_poule', conn)
 conn.close()
-
+   
 ####################
 # Transformer les données (still in progress)
 def transform_data(df):
-    df1 = df.copy()
-
-transformed_df = df.copy()
+    transformed_df = df.copy()
+    
+    return transformed_df 
 ####################
+
+
 
 st.write((df
           .set_index('id')
@@ -42,7 +47,8 @@ st.write((df
                 'code_postal' : 'Code Postal',
                 'type_route' : 'Type de route',
                 'message' : 'Message',
-                'created_at' : 'Date de signalement'})))
+                'created_at' : 'Date de signalement'
+                })))
 
 # Afficher les localisations des nids de poule signalés en utilisant folium
 nomi = pgeocode.Nominatim('ca')
