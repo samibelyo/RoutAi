@@ -80,10 +80,6 @@ if upload:
 localisation = np.nan
 
 
-
-
-
-
 if st.button('Soumettre'):
 
     if upload is not None:

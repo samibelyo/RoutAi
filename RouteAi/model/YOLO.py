@@ -29,7 +29,7 @@ def transform_data_YOLO(df):
     return transformed_df 
 
 
-df=lire_donnees_nids_de_poule()
+
 
 ## Dashboard
 st.title("detecteur nids de pouls")
