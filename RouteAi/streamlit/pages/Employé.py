@@ -8,6 +8,17 @@ import folium
 from streamlit_folium import folium_static
 import pgeocode
 
+from PIL import Image
+
+logo = Image.open('RouteAi/streamlit/static/images/transparent.png')
+st.set_page_config(
+    page_title="RoutAi - Interface Employé",
+
+    page_icon=logo,
+    initial_sidebar_state="collapsed"
+)
+
+
 
 st.title('RoutAi')
 st.subheader('Interface employé')
@@ -63,5 +74,12 @@ st.subheader('Localisation des nids de poule signalés')
 # Display the map
 folium_static(map)
 
+# Add buttons to return to the home page or view the reported potholes
+st.markdown('---')
+row = st.columns(2)
+for col, emoji, title, link in zip(row, ["🏠", ":warning:"], ["Accueil", "Interface Client"], ["http://localhost:8501/Accueil", "http://localhost:8501/Client"]):
+    tile = col.container(height=170)
+    tile.title(emoji)
+    tile.link_button(title, link, )
 
 

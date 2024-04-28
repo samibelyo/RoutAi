@@ -3,13 +3,23 @@ import pandas as pd
 import numpy as np
 import os
 from PIL import Image
+from streamlit_extras.let_it_rain import rain
 
 logo = Image.open('RouteAi/streamlit/static/images/transparent.png')
 st.set_page_config(
     page_title="RoutAi",
 
     page_icon=logo,
+    initial_sidebar_state="collapsed"
 )
+# st.snow()
+rain(
+        emoji="🐓",
+        font_size=54,
+        falling_speed=5,
+        animation_length="infinite",
+    )
+
 
 st.image(logo, width=200)
 st.title('RoutAi')
@@ -27,7 +37,8 @@ row = st.columns(2)
 for col, emoji, title, link in zip(row, [" :warning:", ":construction:"], ["Interface Client", "Interface Employé"], ["http://localhost:8501/Client", "http://localhost:8501/Employé"]):
     tile = col.container(height=170)
     tile.title(emoji)
-    tile.markdown(f"[{title}]({link})", unsafe_allow_html=True)
+    tile.link_button(title, link)
+
 
 
 

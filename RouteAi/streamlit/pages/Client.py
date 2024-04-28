@@ -5,6 +5,15 @@ import os
 import sqlite3
 from streamlit_geolocation import streamlit_geolocation
 import datetime
+from PIL import Image
+
+logo = Image.open('RouteAi/streamlit/static/images/transparent.png')
+st.set_page_config(
+    page_title="RoutAi - Interface Client",
+
+    page_icon=logo,
+    initial_sidebar_state="collapsed"
+)
 
 st.title('RoutAi')
 st.subheader('Interface client')
@@ -56,3 +65,10 @@ with st.form(key='my_form'):
         conn.close()
         st.success('Nid de poule signalé avec succès')
 
+# Add buttons to return to the home page or view the reported potholes
+st.markdown('---')
+row = st.columns(2)
+for col, emoji, title, link in zip(row, ["🏠", ":construction:"], ["Accueil", "Interface Employé"], ["http://localhost:8501/Accueil", "http://localhost:8501/Employé"]):
+    tile = col.container(height=170)
+    tile.title(emoji)
+    tile.link_button(title, link)
