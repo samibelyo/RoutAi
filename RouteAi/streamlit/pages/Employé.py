@@ -9,8 +9,6 @@ from streamlit_folium import folium_static
 import pgeocode
 
 
-
-
 st.title('RoutAi')
 st.subheader('Interface employé')
 
@@ -26,6 +24,14 @@ if not os.path.exists('data.db'):
 conn = sqlite3.connect('data.db')
 df = pd.read_sql('SELECT * FROM nids_de_poule', conn)
 conn.close()
+
+####################
+# Transformer les données (still in progress)
+def transform_data(df):
+    df1 = df.copy()
+
+transformed_df = df.copy()
+####################
 
 st.write((df
           .set_index('id')

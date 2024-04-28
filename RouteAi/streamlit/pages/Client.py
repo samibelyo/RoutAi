@@ -4,6 +4,7 @@ import numpy as np
 import os
 import sqlite3
 from streamlit_geolocation import streamlit_geolocation
+import datetime
 
 st.title('RoutAi')
 st.subheader('Interface client')
@@ -26,7 +27,9 @@ code_postal = st.text_input('Code Postal')
 type_route = st.selectbox('Type de route', ['Artère Principale', 'Rue Collectrice'
 , 'Rue Locale'])
 message = st.text_area('Message')
-photo = st.file_uploader('Photo du nid de poule', type=['jpg', 'jpeg', 'png'])
+# Photo est obligatoire
+
+photo = st.file_uploader('Photo du nid de poule (Obligatoire)', type=['jpg', 'jpeg', 'png'])
 
 # localisation = streamlit_geolocation()
 localisation = np.nan
@@ -37,16 +40,19 @@ localisation = np.nan
 
 
 if st.button('Soumettre'):
+
     if photo is not None:
         photo_data = photo.read()
     else:
-        photo_data = None
+        st.error('Veuillez ajouter une photo du nid de poule')
+        st.stop()
 
     # Enregistrer les données dans la base de données
     conn = sqlite3.connect('data.db')
     c = conn.cursor()
-    c.execute('''CREATE TABLE IF NOT EXISTS nids_de_poule (id INTEGER PRIMARY KEY AUTOINCREMENT, adresse TEXT, code_postal TEXT, type_route TEXT, message TEXT, photo BLOB, localisation TEXT)''')
-    c.execute('INSERT INTO nids_de_poule (adresse, code_postal, type_route, message, photo, localisation) VALUES (?, ?, ?, ?, ?, ?)', (adresse, code_postal, type_route, message, photo_data, localisation))
+    c.execute('''CREATE TABLE IF NOT EXISTS nids_de_poule (id INTEGER PRIMARY KEY AUTOINCREMENT, adresse TEXT, code_postal TEXT, type_route TEXT, message TEXT, photo BLOB, localisation TEXT, created_at TIMESTAMP)''')
+    current_time = datetime.datetime.now()
+    c.execute('INSERT INTO nids_de_poule (adresse, code_postal, type_route, message, photo, localisation, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)', (adresse, code_postal, type_route, message, photo_data, localisation, current_time))
     conn.commit()
     conn.close()
     st.success('Nid de poule signalé avec succès')
